@@ -7,11 +7,11 @@ import CPX.Mobile.Backend.demo2.model.model_user;
 @Component
 public class userServise {
     
-    public model_user getSubscriptionMessage (@NonNull String stud) {
+    public model_user getSubscriptionMessage (String stud) {
         
         model_user muser = new model_user();
 
-        muser.setUsername("ss");
+        muser.setuser_name("sdasdsd");
         return muser;
 
     }

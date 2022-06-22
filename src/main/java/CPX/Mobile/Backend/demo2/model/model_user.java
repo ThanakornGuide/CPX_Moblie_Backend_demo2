@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class model_user {
     
-    private String username;
+    private String user_name;
     //private Integer year;
 
 }
