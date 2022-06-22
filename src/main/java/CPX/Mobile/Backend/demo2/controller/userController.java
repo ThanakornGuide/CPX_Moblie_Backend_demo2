@@ -7,17 +7,18 @@ import CPX.Mobile.Backend.demo2.model.model_user;
 import CPX.Mobile.Backend.demo2.service.userServise;
 
 @RestController
-
 public class userController {
     
     private userServise userServise;
 
     @GetMapping("/user")
-    public String output(){
+    public String outputSS(){
 
-        model_user user = userServise.getSubscriptionMessage();
+        model_user user = new model_user();
+        user = userServise.getSubscriptionMessage("Test Name");
 
-        String txt_name = user.toString();
+        String txt_name = (user.getUser_name()).toString() + (user.getYear()).toString();
+
         return txt_name;
     }
     
