@@ -1,5 +1,5 @@
 
-CREATE TABLE public.tbUser (
+CREATE TABLE tbUser (
     id SERIAL PRIMARY KEY NOT NULL,
     username varchar(255),
     yaer integer,
