@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class model_user {
     
-    private String name;
+    private String username;
     private int year;
 
 }

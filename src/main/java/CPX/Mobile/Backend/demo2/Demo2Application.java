@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import CPX.Mobile.Backend.demo2.model.Test_class;
+
 @SpringBootApplication
 @RestController
 public class Demo2Application {

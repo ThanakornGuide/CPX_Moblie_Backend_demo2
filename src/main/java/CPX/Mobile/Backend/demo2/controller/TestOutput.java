@@ -5,17 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@RestController
+@RestControllerusername
 public class TestOutput {
 
     @GetMapping("/test")
     public model_user demo() {
 
-        model_user user = new model_user();
+        model_user test_user = new model_user();
         
-        user.
-        
-        return user;
+        return test_user;
     }
 
     @GetMapping("/test2")
