@@ -1,6 +1,5 @@
 package CPX.Mobile.Backend.demo2.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import CPX.Mobile.Backend.demo2.model.model_user;
@@ -9,16 +8,16 @@ import CPX.Mobile.Backend.demo2.service.userServise;
 @RestController
 public class userController {
     
-    private userServise userServise;
+    //protected userServise userServise;
 
-    @GetMapping("/user")
     public String outputSS(){
 
         model_user user = new model_user();
-        user = userServise.getSubscriptionMessage("Test Name");
+        userServise servise = new userServise();
 
-        String txt_name = (user.getUser_name()).toString() + (user.getYear()).toString();
+        user = servise.getSubscriptionMessage("Test Name");
 
+        String txt_name = user.getUser_name().toString();
         return txt_name;
     }
     
