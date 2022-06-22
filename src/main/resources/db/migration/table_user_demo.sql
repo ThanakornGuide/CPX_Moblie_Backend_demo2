@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS tb_user (
     id  int NOT NULL AUTO_INCREMENT,
     user_name VARCHAR(255),
     yaer INT(4),
