@@ -6,6 +6,6 @@ import lombok.Data;
 public class model_user {
     
     private String name;
-    private Integer year;
+    private int year;
 
 }
