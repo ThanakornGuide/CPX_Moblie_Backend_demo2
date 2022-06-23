@@ -2,19 +2,30 @@ package CPX.Mobile.Backend.demo2.model;
 
 import lombok.Data;
 
-@Data;
+@Data
 public class userModel {
-    private int id;
-    private String username;
-    private String surname;
-    private String numberphone;
 
-    public userModel(int id,String username,String surname,String numberphone) {
+    public userModel() {
+        
+    }
+
+
+    public userModel(int id,String username,String lastName,String numberphone) {
         this.id = id;
         this.username = username;
-        this.surname = surname;
+        this.lastName = lastName;
         this.numberphone = numberphone;
     }
 
-    
+    private int id;
+    private String username;
+    private String lastName;
+    private String numberphone;
+
+    @Override
+    public String toString() {
+        return "User : id= "+id+ ",username="+username+",lastName="+lastName+",numberphone="+numberphone + "";
+    }
+
+
 }
