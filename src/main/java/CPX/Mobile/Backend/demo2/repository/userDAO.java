@@ -23,4 +23,5 @@ public class userDAO {
     public void addUser(userModel user) {
         list.getUserList().add(user);
     } 
+
 }
