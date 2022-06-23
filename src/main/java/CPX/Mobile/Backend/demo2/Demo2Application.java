@@ -14,11 +14,4 @@ public class Demo2Application {
 		SpringApplication.run(Demo2Application.class, args);
 	}
 
-	@GetMapping("/hello2")
-	public String hello2() {
-		userModel muser = userModel.builder().name("Thanakorn").subname("boohuadchai").build();
-
-		return String.format("test : " + muser.toString());
-	}
-
 }
