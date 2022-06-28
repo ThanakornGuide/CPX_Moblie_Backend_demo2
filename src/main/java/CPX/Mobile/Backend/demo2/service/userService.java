@@ -24,15 +24,15 @@ public class userService {
         return uRepository.findAll();
     }
 
-    public userModel createUser(userModel user) throws IOException{
+    public userModel createUser(userModel user) {
 
-        if(user.equals(null)){
-            throw new IOException("null");
-        }
+        // if(user.equals(null)){
+        //     throw new IOException("null");
+        // }
 
-        if(Objects.isNull(user.getEmail())){
-            throw new IOException("Email is not");
-        }
+        // if(Objects.isNull(user.getEmail())){
+        //     throw new IOException("Email is not");
+        // }
 
         return uRepository.save(user);
     }

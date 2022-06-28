@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -51,39 +52,43 @@ public class userController {
     public ResponseEntity<?> createUser(@RequestBody userModel user){
     
         
-        // userModel saveUser = uService.createUser(user);
-        // return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
-
-        // if(user.getEmail().equals("null")){
+        // if(user.equals(null)){
         //     ErrorResponse error = new ErrorResponse();
-        //     error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        //     error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
         //     error.setTimeStamp(LocalDateTime.now());
-        //     error.setMessage("Email is Empty"+user.getEmail().isEmpty());
+        //     error.setMessage("Email is Empty");
 
-        
-        //     //return new ResponseEntity<ErrorResponse>(error, HttpStatus.OK);
-        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Email is Empty "+user.getEmail().isEmpty());
-
-        // }else{
-        //     return null;
+        //     return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
         // }
 
-        try {
-            userModel saveUser = uService.createUser(user);
-            return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
-
-        }catch (IOException e) {
-           ErrorResponse error = new ErrorResponse();
-            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY);
-            error.setTimeStamp(LocalDateTime.now());
-            error.setMessage("Email is Empty");
+        // if(Objects.isNull(user.getEmail())){
+        //     ErrorResponse error = new ErrorResponse();
+        //     error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+        //     error.setTimeStamp(LocalDateTime.now());
+        //     error.setMessage("Email is Empty");
 
         
-            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-            //return IOException()
-            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Email is Empty "+user.getEmail().isEmpty());
+        //     return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        // }
+        userModel saveUser = uService.createUser(user);
+        return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
 
-        }
+        // try {
+        //     userModel saveUser = uService.createUser(user);
+        //     return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
+
+        // }catch (IOException e) {
+        //    ErrorResponse error = new ErrorResponse();
+        //    error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+        //    error.setTimeStamp(LocalDateTime.now());
+        //     error.setMessage("Email is Empty");
+
+        
+        //     return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        //     //return IOException()
+        //     //throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Email is Empty "+user.getEmail().isEmpty());
+
+        // }
             
     
     }
