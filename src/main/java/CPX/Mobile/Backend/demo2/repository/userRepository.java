@@ -7,4 +7,5 @@ import CPX.Mobile.Backend.demo2.model.userModel;
 
 public interface userRepository extends JpaRepository<userModel,Long> {
     
+    
 }

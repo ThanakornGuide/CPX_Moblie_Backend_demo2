@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -27,18 +28,15 @@ public class userModel {
     private long id;
     
     @Column(name = "user_name",nullable = false)
-    @NotNull(message = "username is null")
     @Size(min = 2,message = "username should at least 2 characters")
     private String username;
 
     @Column(name = "last_Name",nullable = false)
-    @NotNull(message = "lastName should not empty")
     @Size(min = 2,message = "lastName should at least {min} characters")
     private String lastName;
     
     @Column(name = "email")
     @Email(message = "must be a well-formed email address")
-    @NotEmpty(message = "email should not empty")
     private String email;
 
 }

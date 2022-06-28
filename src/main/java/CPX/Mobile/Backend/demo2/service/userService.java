@@ -1,18 +1,15 @@
 package CPX.Mobile.Backend.demo2.service;
 
-import java.lang.StackWalker.Option;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.kafka.common.errors.ResourceNotFoundException;
-import org.hibernate.hql.internal.ast.exec.BasicExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import CPX.Mobile.Backend.demo2.dto.userDAO;
-import CPX.Mobile.Backend.demo2.exception.UserNotFoundException;
 import CPX.Mobile.Backend.demo2.model.userModel;
 import CPX.Mobile.Backend.demo2.repository.userRepository;
 
@@ -27,28 +24,22 @@ public class userService {
         return uRepository.findAll();
     }
 
-    public userModel createUser(userModel user){
+    public userModel createUser(userModel user) throws IOException{
+
+        if(user.equals(null)){
+            throw new IOException("null");
+        }
+
+        if(Objects.isNull(user.getEmail())){
+            throw new IOException("Email is not");
+        }
 
         return uRepository.save(user);
     }
 
-    public userModel getUserById(Long id){
-        
-        //userModel user = new userModel();
-
-        return uRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with id %d not found", id)));
-        //    try {
-
-        //     return ResponseEntity.status(HttpStatus.OK).body(user);
-
-        //    } catch (RuntimeException e) {
-        //     //TODO: handle exception
-        //      throw new RuntimeException("User not exist with id:" + id);
-        //    }
-
-          
-
+    public userModel getUserById(Long id) {
+         
+        return uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
     }
 
     public userModel putUpdateUser(long id, userModel userDetails) {

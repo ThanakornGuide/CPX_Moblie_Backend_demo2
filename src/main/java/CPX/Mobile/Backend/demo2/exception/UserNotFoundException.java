@@ -1,8 +1,8 @@
 package CPX.Mobile.Backend.demo2.exception;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException {
     
-    UserNotFoundException(Long id) {
-        super("Could not find employee " + id);
-    }
+    // public UserNotFoundException(Long id) {
+    //     super("Could not find employee " + id);
+    // }
 }

@@ -1,35 +1,20 @@
 package CPX.Mobile.Backend.demo2.exception;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+
+import org.springframework.http.HttpStatus;
+
 import java.time.LocalDateTime;
 
-import org.hibernate.hql.internal.ast.exec.BasicExecutor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import CPX.Mobile.Backend.demo2.model.userModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@ControllerAdvice
+@Data
 public class ErrorResponse {
-    
-    // @ExceptionHandler(BaseException.class)
-    // public ResponseEntity<userModel> handleBaseException(BaseException e){
-    //     ErrorMode error = new ErrorMode();
-    // }
 
-    // @Data
-    // public static class ErrorMode() {
-    //     private HttpStatus status;
-    //     private LocalDateTime timeStamp = LocalDateTime.now();
-    //     private String message;
-    // }
-
-
-
+    private HttpStatus status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd hh:mm:ss")
+    private LocalDateTime timeStamp;
+    private String message;
 }
-
 

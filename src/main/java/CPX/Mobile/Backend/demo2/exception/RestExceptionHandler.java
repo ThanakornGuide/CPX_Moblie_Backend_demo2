@@ -1,17 +1,40 @@
 package CPX.Mobile.Backend.demo2.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@RestControllerAdvice
+import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.NoSuchElementException;
+
+// @Order(Ordered.HIGHEST_PRECEDENCE)
+// @ControllerAdvice()
 public class RestExceptionHandler {
     
+    // @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    // public ResponseEntity<Object> handleSqlIntegrityException(HttpServletRequest req,SQLIntegrityConstraintViolationException ex){
+
+    //     String error = "Unable to submit post: " + ex.getMessage();
+    //     return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, error));
+    // }
+
+    // @ExceptionHandler(NoSuchElementException.class)
+    // public ResponseEntity<Object> handleNoSuchElementException(HttpServletRequest req,NoSuchElementException ex){
+    //     ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND);
+    //     response.setMessage("The row for address is not existent: " + req.getRequestURI());
+    //     return buildResponseEntity(response);
+    // }
+
+    // private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse){
+    //     return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
+    // }
+
+
     // @ResponseStatus(HttpStatus.BAD_REQUEST)
     // @ExceptionHandler(MethodArgumentNotValidException.class)
     // public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {
