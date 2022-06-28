@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,8 @@ public class userController {
     @Autowired
     private userService uService;
 
-    @GetMapping("/v1/users")
+    @GetMapping
+    @RequestMapping("/v1/users")
     public List<userModel> getAllUser(){
 
         List<userModel> listUser = uService.getAllUser();
@@ -51,58 +53,197 @@ public class userController {
     @RequestMapping("/v1/user")
     public ResponseEntity<?> createUser(@RequestBody userModel user){
     
-        
-        // if(user.equals(null)){
-        //     ErrorResponse error = new ErrorResponse();
-        //     error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
-        //     error.setTimeStamp(LocalDateTime.now());
-        //     error.setMessage("Email is Empty");
+        //กรณีไม่มีการส่งข้อมูลใดๆ เข้ามาเลย
+        if(user.equals(null)){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username, Lastname and Email is Empty");
 
-        //     return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-        // }
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
-        // if(Objects.isNull(user.getEmail())){
-        //     ErrorResponse error = new ErrorResponse();
-        //     error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
-        //     error.setTimeStamp(LocalDateTime.now());
-        //     error.setMessage("Email is Empty");
+        //กรณีไม่มีการส่ง username กับ lastname
+        else if(Objects.isNull(user.getUsername()) && Objects.isNull(user.getLastName())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username and Lastname is Empty");
 
-        
-        //     return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-        // }
-        userModel saveUser = uService.createUser(user);
-        return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
-        // try {
-        //     userModel saveUser = uService.createUser(user);
-        //     return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
+        //กรณีไม่มีการส่ง username กับ Email
+        else if(Objects.isNull(user.getUsername()) && Objects.isNull(user.getEmail())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username and Email is Empty");
 
-        // }catch (IOException e) {
-        //    ErrorResponse error = new ErrorResponse();
-        //    error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
-        //    error.setTimeStamp(LocalDateTime.now());
-        //     error.setMessage("Email is Empty");
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
-        
-        //     return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-        //     //return IOException()
-        //     //throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Email is Empty "+user.getEmail().isEmpty());
-
-        // }
+        //กรณีไม่มีการส่ง Lastname กับ Email
+        else if(Objects.isNull(user.getLastName()) && Objects.isNull(user.getEmail())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Lastname and Email is Empty");
             
-    
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        //กรณีไม่มีการส่ง Email
+        else if(Objects.isNull(user.getEmail())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Email is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        
+        ///กรณีไม่มีการส่ง Username 
+        else if(Objects.isNull(user.getUsername())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY); 
+        }
+
+        ///กรณีไม่มีการส่ง Lastname
+        else if(Objects.isNull(user.getLastName())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Lastname is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        try {
+            userModel saveUser = uService.createUser(user);
+            return new ResponseEntity<userModel>(saveUser, HttpStatus.CREATED);
+
+        }catch (IOException e) {
+           ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Email is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+
+        }
     }
 
-    @GetMapping("/v1/user/{id}")
-    public userModel getUser(@PathVariable long id) {
-           return uService.getUserById(id);
+    @GetMapping
+    @RequestMapping("/v1/user/{id}")
+    public ResponseEntity<?> getUser(@PathVariable long id) {
+           
+        try {
+            userModel user = uService.getUserById(id);
+            return new ResponseEntity<userModel>(user, HttpStatus.OK);
+
+        } catch (Exception e) {
+            //TODO: handle exception            
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.BAD_REQUEST.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Could not find user id : " + id);
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);     
+        }
     }
 
-    @PutMapping("/v1/user/{id}")
-    public ResponseEntity<userModel> putUpdateUserById(@PathVariable long id,@RequestBody userModel userDetails) {
+    @PutMapping
+    @RequestMapping("/v1/user/{id}")
+    public ResponseEntity<?> putUpdateUserById(@PathVariable long id,@RequestBody userModel user) {
 
-        userModel updateUser = uService.putUpdateUser(id, userDetails);
-        return ResponseEntity.ok(updateUser);
+        //กรณีไม่มีการส่งข้อมูลใดๆ เข้ามาเลย
+        if(user.equals(null)){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username, Lastname and Email is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        //กรณีไม่มีการส่ง username กับ lastname
+        else if(Objects.isNull(user.getUsername()) && Objects.isNull(user.getLastName())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username and Lastname is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        //กรณีไม่มีการส่ง username กับ Email
+        else if(Objects.isNull(user.getUsername()) && Objects.isNull(user.getEmail())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username and Email is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        //กรณีไม่มีการส่ง Lastname กับ Email
+        else if(Objects.isNull(user.getLastName()) && Objects.isNull(user.getEmail())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Lastname and Email is Empty");
+            
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        //กรณีไม่มีการส่ง Email
+        else if(Objects.isNull(user.getEmail())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Email is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        
+        ///กรณีไม่มีการส่ง Username 
+        else if(Objects.isNull(user.getUsername())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Username is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        ///กรณีไม่มีการส่ง Lastname
+        else if(Objects.isNull(user.getLastName())){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.toString());
+            error.setTimeStamp(LocalDateTime.now());
+            error.setMessage("Lastname is Empty");
+
+            return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+
+        try {
+
+            userModel updateUser = uService.putUpdateUser(id, user);
+            
+            return new ResponseEntity<userModel>(updateUser, HttpStatus.OK);
+
+        } catch (Exception e) {
+            //TODO: handle exception
+
+            return null;
+        }
+
     }
 
     @PatchMapping("/v1/user/{id}")

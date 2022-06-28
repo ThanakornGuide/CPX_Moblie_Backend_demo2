@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import CPX.Mobile.Backend.demo2.model.userModel;
 import CPX.Mobile.Backend.demo2.repository.userRepository;
@@ -24,38 +25,48 @@ public class userService {
         return uRepository.findAll();
     }
 
-    public userModel createUser(userModel user) {
+    public userModel createUser(userModel user) throws IOException{
 
-        // if(user.equals(null)){
-        //     throw new IOException("null");
-        // }
+        try {
+            return uRepository.save(user);
 
-        // if(Objects.isNull(user.getEmail())){
-        //     throw new IOException("Email is not");
-        // }
+        } catch (Exception e) {
+            //TODO: handle exception
 
-        return uRepository.save(user);
+            return null;
+        }
     }
 
-    public userModel getUserById(Long id) {
+    public userModel getUserById(long id) {
          
-        return uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
+        return uRepository.findById(id).orElseThrow(null);
     }
 
     public userModel putUpdateUser(long id, userModel userDetails) {
-        userModel user = uRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("User not exist with id:" + id));
+        
+        //userModel user = uRepository.findById(id).orElseThrow(null);
 
-        user.setUsername(userDetails.getUsername());
-        user.setLastName(userDetails.getLastName());
+        userModel user =  uRepository.findById(id)
+       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with id %d not found", id)));
 
-        user.setLastName(userDetails.getLastName());
-        user.setLastName(userDetails.getLastName());
+        if(!Objects.isNull(user)){
 
-        user.setEmail(userDetails.getEmail());
-        user.setEmail(userDetails.getEmail());
+            user.setUsername(userDetails.getUsername());
+            user.setLastName(userDetails.getLastName());
 
-        uRepository.save(user);
+            user.setLastName(userDetails.getLastName());
+            user.setLastName(userDetails.getLastName());
+
+            user.setEmail(userDetails.getEmail());
+            user.setEmail(userDetails.getEmail());
+
+            uRepository.save(user);
+
+        }else{
+            
+
+        }
+
 
         return user;
     }
