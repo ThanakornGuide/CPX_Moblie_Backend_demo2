@@ -159,7 +159,7 @@ public class userController {
 
     @PutMapping
     @RequestMapping("/v1/user/{id}")
-    public ResponseEntity<?> putUpdateUserById(@PathVariable long id,@RequestBody userModel user) {
+    public ResponseEntity<?> putUpdateUserById(@PathVariable @NotNull long id,@RequestBody userModel user) {
 
         //กรณีไม่มีการส่งข้อมูลใดๆ เข้ามาเลย
         if(user.equals(null)){
